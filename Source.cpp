@@ -7,31 +7,31 @@ const int Sze_pola = 20;
 
 class field
 {
-	sf::Color covered, uncovered;
-	bool bcovered;
-	sf::RectangleShape pole;
+	sf::Color covered, uncovered; //dwa kolory dla odkrytego i zakrytego
+	bool bcovered; // zamiana koloru
+	sf::RectangleShape pole; // prostokat o nazwie pole
 
 public:
 	field();
-	void uncover();
-	void setpos(int x, int y);
-	void drawfield(sf::RenderWindow & win);
+	void uncover(); // zmiana bcovered => zmiana koloru
+	void setpos(int x, int y); // ustawienie pozycji pola
+	void drawfield(sf::RenderWindow & win); // ?
 };
 
 class board
 {
-	field tablica[Wys_planszy][Sze_planszy];
+	field tablica[Wys_planszy][Sze_planszy]; // tablica klas field
 public:
-	board();
-	void board::odkryj(int kol, int wie);
-	void drawboard(sf::RenderWindow & win);
+	board(); // 
+	void board::odkryj(int kol, int wie); // odkrywanie konkretnego pola
+	void drawboard(sf::RenderWindow & win); //?
 };
 
 int main()
 {
 	sf::RenderWindow Okno(sf::VideoMode(Wys_pola*Wys_planszy, Sze_pola*Sze_planszy),"Test");
 
-	board plansza;
+	board plansza; //deklaracja 
 
 	while (Okno.isOpen())
 	{
@@ -42,7 +42,7 @@ int main()
 			if (zdarzenie.type == sf::Event::Closed)
 				Okno.close();
 
-			if (zdarzenie.type == sf::Event::MouseButtonPressed)
+			if (zdarzenie.type == sf::Event::MouseButtonPressed) //kod skopiowany z przykladow k6
 			{
 				if (zdarzenie.mouseButton.button == sf::Mouse::Right)
 				{
@@ -55,7 +55,7 @@ int main()
 
 		Okno.clear();
 
-		plansza.drawboard(Okno);
+		plansza.drawboard(Okno); 
 
 		Okno.display();
 	}
@@ -64,13 +64,13 @@ int main()
 
 field::field()
 {
-	covered = sf::Color::Black;
-	uncovered = sf::Color::Blue;
-	bcovered = true;
-	pole.setSize(sf::Vector2f(Wys_pola, Sze_pola));
+	covered = sf::Color::Black; //zakryte ma kolor czarny 
+	uncovered = sf::Color::Blue; //odkryte kolor niebieski
+	bcovered = true; // domyslnie zakryte
+	pole.setSize(sf::Vector2f(Wys_pola, Sze_pola)); //rozmiary prostakata 
 }
 
-void field::drawfield(sf::RenderWindow & win)
+void field::drawfield(sf::RenderWindow & win) //?
 {
 	win.draw(pole);
 }
@@ -81,12 +81,12 @@ board::board()
 	{
 		for (int j = 0;j < Sze_planszy;j++)
 		{
-			tablica[i][j].setpos(i*Wys_pola, j*Sze_pola);
+			tablica[i][j].setpos(i*Wys_pola, j*Sze_pola); // powinno ustawiac pole w zalerznosci od [i][j]
 		}
 	}
 }
 
-void board::drawboard(sf::RenderWindow & win)
+void board::drawboard(sf::RenderWindow & win) // kod wzorowany na https://github.com/gshopov/SFML-Minesweeper/blob/master/MineField.cpp crl + f (draw)
 {
 	for (int i = 0;i < Wys_planszy;i++)
 	{
@@ -96,17 +96,17 @@ void board::drawboard(sf::RenderWindow & win)
 		}
 	}
 }
-void field::setpos(int x, int y)
+void field::setpos(int x, int y) //metoda potrzebna do zmiany pozycji pola
 {
 	pole.setPosition(x, y);
 }
 
-void board::odkryj(int kol, int wie)
+void board::odkryj(int kol, int wie) //odkrywanie konkretnego pola
 {
 	tablica[kol][wie].uncover();
 }
 
-void field::uncover()
+void field::uncover() //odkrywanie pola
 {
 	bcovered = false;
 }
